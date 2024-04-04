@@ -4,31 +4,36 @@
 <template>
   <form @submit.prevent="handleForm">
     <input type="text" placeholder="description" v-model="formData.desc" />
-    <input type="number" placeholder="number" v-model="formData.value"/>
-    <input type="date" placeholder="date" v-model="formData.date"/>
+    <input type="number" placeholder="value" v-model="formData.value" />
+    <input type="date" placeholder="date" v-model="formData.date" />
     <input type="submit" value="submit" />
   </form>
 </template>
 
 <script setup>
-
-import { reactive } from 'vue';
+import { defineProps, defineEmits, reactive } from 'vue'
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
-    state: Object
+  state: Object
 })
 // eslint-disable-next-line no-unused-vars
-const { emit } = defineEmits(['event'])
-const formData = reactive ({
-    desc: null,
-    value: null,
-    date: null
+const emit = defineEmits(['add-income'])
+const formData = reactive({
+  desc: null,
+  value: null,
+  date: null
 })
 const handleForm = () => {
-    // emit('event', formData)
-    console.log(formData)
+  emit('add-income', {
+    desc: formData.desc,
+    value: formData.value,
+    date: formData.date
+  })
+
+  formData.desc = null
+  formData.value = null
+  formData.date = null
 }
-handleForm()
 </script>
 
 <style scoped>
